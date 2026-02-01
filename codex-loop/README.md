@@ -1,64 +1,66 @@
 # Codex Closed Loop
 
-**Automatically captures Codex sessions, detects friction patterns (failures, denials, confusion), and converts them into reproducible evaluation tasks—creating a self-improving feedback loop for AI coding agents.**
+**Captures Codex sessions, detects friction patterns, and converts them into reproducible evaluation tasks—enabling recursive self-improvement for AI coding agents.**
 
 ## How to Run
 
 ```bash
-# 1. Clone and install
+# Clone and install
 git clone https://github.com/YOUR_USERNAME/codex-closed-loop.git
 cd codex-closed-loop
 python -m venv .venv && source .venv/bin/activate
 pip install -e .
 
-# 2. Set OpenAI API key (for semantic analysis)
+# Set OpenAI API key (optional, for semantic analysis)
 export OPENAI_API_KEY="sk-..."
-
-# 3. Run the demo
-python demo_video.py
 ```
 
 ## Demo Steps
 
-Run `python demo_video.py` and press **ENTER** to advance through each stage:
+```bash
+# 1. Run analysis on your Codex sessions
+codex-loop daily --codex-home ~/.codex --db analysis.db --skip-semantic
 
-1. **Problem** → Shows why AI agents need systematic improvement
-2. **Solution** → Architecture diagram of the closed loop
-3. **Data** → 500 synthetic Codex sessions captured
-4. **Signals** → 1,736 friction/delight patterns detected (bar charts)
-5. **Issues** → Top problems ranked by impact score
-6. **Harbor Task** → Friction converted to reproducible eval task
-7. **Closing** → The value: every session → data → eval → measured fix
+# 2. View the friction/delight report
+codex-loop report --db analysis.db
 
-Total runtime: ~2 minutes with narration pauses.
+# 3. Distill a friction pattern into a Harbor evaluation task
+codex-loop distill --db analysis.db --signal-id <signal-id> --output ./harbor_task
+```
 
-## What Gets Detected
-
-| Friction (Problems) | Delight (Success) |
-|---------------------|-------------------|
-| Command failures | Fast completion (≤3 turns) |
-| Repeated denials | Zero denials |
-| Context truncation | First-attempt success |
-| Patch failures | Positive feedback |
-| Timeouts & errors | |
+**What you'll see:**
+- Sessions ingested from `~/.codex/trace_spine/`
+- Friction signals: exec failures, repeated denials, context truncation
+- Delight signals: fast completion, zero denials, first-attempt success
+- Harbor task with `instruction.md`, `Dockerfile`, and `verify.sh`
 
 ## Architecture
 
 ```
-Codex Session → Trace Spine → SQLite + ChromaDB → Signal Detection → Harbor Task
-                                                         ↓
-                                                  Measured Improvement
-                                                         ↓
-                                                   Loop Closes ←──────┘
+Codex Session → Trace Spine → Analysis Pipeline → Signals → Harbor Task
+       ↑                                                         ↓
+       └─────────────── Measured Fix ◄── Evaluation ◄───────────┘
 ```
+
+**The loop:** Every session becomes data. Every friction becomes an eval. Every fix gets measured.
+
+## Signal Types
+
+| Friction | Delight |
+|----------|---------|
+| exec_failure | fast_completion |
+| repeated_denial | zero_denial |
+| compaction | first_attempt_success |
+| patch_failure | positive_feedback |
+| timeout | |
 
 ## Tech Stack
 
-- **Python 3.11+** with SQLite + ChromaDB for local analysis
-- **OpenAI GPT-4o** for semantic signal detection
-- **OpenAI text-embedding-3-small** for clustering similar issues
-- **Harbor** framework for reproducible agent evaluations
+- Python 3.11+ / SQLite / ChromaDB
+- OpenAI GPT-5.2 via Responses API (semantic signal detection)
+- OpenAI text-embedding-3-small (clustering)
+- Harbor (reproducible agent evaluation)
 
 ---
 
-*Built for OpenAI Hackathon 2026 — Track: Agentic Software Engineering with Codex*
+*OpenAI Hackathon 2026 — Agentic Software Engineering with Codex*

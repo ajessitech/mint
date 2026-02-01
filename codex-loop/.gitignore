@@ -11,11 +11,24 @@ ENV/
 dist/
 build/
 
-# Demo artifacts (regenerated on demand)
-demo.db
+# ===========================================
+# LOCAL ONLY - Not for submission
+# ===========================================
+# Demo scripts (keep locally for video recording)
+demo.py
+demo_video.py
+demo/
+scripts/
+SUBMISSION.md
+
+# Generated data
+*.db
 demo_codex_home/
 demo_harbor_task/
 demo_output/
+demo_vectors/
+vectors/
+chroma_data/
 
 # IDE
 .idea/
@@ -31,6 +44,3 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
-
-# ChromaDB
-chroma_data/

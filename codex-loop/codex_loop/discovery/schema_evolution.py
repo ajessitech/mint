@@ -66,7 +66,7 @@ async def propose_new_schema(
     cluster: Cluster,
     sample_signals: list[Signal],
     client: Optional[AsyncOpenAI] = None,
-    model: str = "gpt-4o",
+    model: str = "gpt-5.2",
 ) -> SchemaProposal:
     """
     Propose a new schema entry for an unlabeled cluster.
@@ -97,20 +97,13 @@ async def propose_new_schema(
     )
     
     try:
-        response = await client.chat.completions.create(
+        response = await client.responses.create(
             model=model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a signal analysis expert. Return only valid JSON.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.3,
-            max_tokens=1000,
+            instructions="You are a signal analysis expert. Return only valid JSON.",
+            input=prompt,
         )
         
-        content = response.choices[0].message.content
+        content = response.output_text
         if not content:
             raise ValueError("Empty response")
         
@@ -395,7 +388,7 @@ async def evaluate_proposal_quality(
     proposal: SchemaProposal,
     existing_categories: list[str],
     client: Optional[AsyncOpenAI] = None,
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-5.2",
 ) -> dict[str, Any]:
     """
     Evaluate whether a schema proposal is high-quality and non-redundant.
@@ -434,17 +427,13 @@ Return JSON:
 }}"""
 
     try:
-        response = await client.chat.completions.create(
+        response = await client.responses.create(
             model=model,
-            messages=[
-                {"role": "system", "content": "Evaluate schema proposals. Return JSON only."},
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0,
-            max_tokens=500,
+            instructions="Evaluate schema proposals. Return JSON only.",
+            input=prompt,
         )
         
-        content = response.choices[0].message.content
+        content = response.output_text
         if content and content.startswith("```"):
             lines = content.split("\n")
             content = "\n".join(lines[1:-1])

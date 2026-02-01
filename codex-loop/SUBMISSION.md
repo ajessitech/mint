@@ -2,20 +2,20 @@
 
 ## Project Write-up (500 characters max)
 
-**Character count: 489**
+**Character count: 497**
 
 ```
-Codex Closed Loop turns every Codex session into improvement data. It automatically captures trace spines during normal usage, detects friction patterns (command failures, repeated denials, context truncation) and delight patterns (fast completion, zero denials), then distills problems into Harbor evaluation tasks. This creates a self-improving feedback loop: sessions become data, friction becomes evals, and fixes get measured. The result is systematic, evidence-based agent improvement.
+Traditional metrics tell you what happened—tool calls, completion rates. They don't tell you how it felt. Codex Closed Loop captures every session, uses LLMs to detect friction patterns that metrics miss—repeated denials, command failures, context churn—and distills them into reproducible evaluations. When patterns cluster and cross thresholds, they become Harbor tasks. The agent's failures become its training data. That's recursive self-improvement: every session makes the next better.
 ```
 
 ---
 
 ## OpenAI Usage Write-up (500 characters max)
 
-**Character count: 497**
+**Character count: 496**
 
 ```
-We use OpenAI models at three key points: (1) GPT-4o detects semantic friction signals like repeated rephrasing, escalation tone, and platform confusion that rule-based detection misses. (2) text-embedding-3-small embeds signals into vectors for HDBSCAN clustering, automatically discovering new failure patterns. (3) GPT-4o generates human-readable tickets from signal clusters with evidence and reproduction steps. Codex itself is the agent being evaluated and improved through Harbor tasks.
+OpenAI models power three layers of abstraction. GPT-5.2 via Responses API analyzes sessions to extract friction signals—repeated rephrasing, escalation tone, platform confusion—without surfacing raw conversations. text-embedding-3-small embeds signals for HDBSCAN clustering, discovering patterns that don't fit existing categories. When clusters emerge, GPT-5.2 proposes new signal types. The taxonomy evolves itself. Codex is both subject and fix—recursive self-improvement.
 ```
 
 ---

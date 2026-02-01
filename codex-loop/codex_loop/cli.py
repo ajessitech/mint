@@ -259,7 +259,7 @@ def distill(db, signal_id, cluster_id, output):
               help="Path to Harbor dataset")
 @click.option("--agent", type=str, default="codex",
               help="Agent to evaluate")
-@click.option("--model", type=str, default="gpt-4",
+@click.option("--model", type=str, default="gpt-5.2",
               help="Model to use")
 @click.option("--baseline", type=Path, default=None,
               help="Previous results for regression check")

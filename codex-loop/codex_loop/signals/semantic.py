@@ -111,7 +111,7 @@ async def detect_semantic_signals(
     session: Session,
     records: Optional[list[TraceRecord]] = None,
     client: Optional[AsyncOpenAI] = None,
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-5.2",
 ) -> list[SignalResult]:
     """
     Detect semantic friction and delight signals using LLM analysis.
@@ -244,23 +244,18 @@ async def _run_detection(
     model: str,
     prompt: str,
 ) -> Optional[dict[str, Any]]:
-    """Run a single detection prompt and parse the result."""
+    """Run a single detection prompt and parse the result using Responses API."""
     try:
-        response = await client.chat.completions.create(
+        system_prompt = ("You are analyzing user behavior in a coding assistant session. "
+                        "Return only valid JSON with no markdown formatting.")
+        
+        response = await client.responses.create(
             model=model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are analyzing user behavior in a coding assistant session. "
-                               "Return only valid JSON with no markdown formatting.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0,
-            max_tokens=500,
+            instructions=system_prompt,
+            input=prompt,
         )
         
-        content = response.choices[0].message.content
+        content = response.output_text
         if not content:
             return None
         

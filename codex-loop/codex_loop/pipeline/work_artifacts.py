@@ -67,7 +67,7 @@ class TicketContent:
                 "",
                 "Run validation:",
                 "```bash",
-                f"harbor run -p {self.harbor_dataset} -a codex -m gpt-4",
+                f"harbor run -p {self.harbor_dataset} -a codex -m gpt-5.2",
                 "```",
             ])
         
@@ -136,7 +136,7 @@ async def generate_ticket(
     signals: list[Signal],
     harbor_dataset: Optional[Path] = None,
     client: Optional[AsyncOpenAI] = None,
-    model: str = "gpt-4o",
+    model: str = "gpt-5.2",
 ) -> TicketContent:
     """
     Generate a ticket from a cluster of signals.
@@ -171,21 +171,13 @@ async def generate_ticket(
     )
     
     try:
-        response = await client.chat.completions.create(
+        response = await client.responses.create(
             model=model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a technical writer creating bug tickets. "
-                               "Return only valid JSON.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.3,
-            max_tokens=1500,
+            instructions="You are a technical writer creating bug tickets. Return only valid JSON.",
+            input=prompt,
         )
         
-        content = response.choices[0].message.content
+        content = response.output_text
         if not content:
             raise ValueError("Empty response")
         
@@ -296,7 +288,7 @@ async def generate_pr_description(
         lines.extend([
             f"- [ ] Ran Harbor validation:",
             f"  ```",
-            f"  harbor run -p {ticket.harbor_dataset} -a codex -m gpt-4",
+            f"  harbor run -p {ticket.harbor_dataset} -a codex -m gpt-5.2",
             f"  ```",
         ])
     

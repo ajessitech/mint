@@ -57,7 +57,7 @@ class HarborJobResult:
 async def run_harbor_evaluation(
     dataset_path: Path,
     agent: str = "codex",
-    model: str = "gpt-4",
+    model: str = "gpt-5.2",
     parallel: int = 4,
     timeout: int = 600,
     job_dir: Optional[Path] = None,
@@ -68,7 +68,7 @@ async def run_harbor_evaluation(
     Args:
         dataset_path: Path to Harbor dataset directory
         agent: Agent to evaluate (e.g., "codex")
-        model: Model to use (e.g., "gpt-4")
+        model: Model to use (e.g., "gpt-5.2")
         parallel: Number of parallel workers
         timeout: Timeout per task in seconds
         job_dir: Optional custom job directory
@@ -230,7 +230,7 @@ def _parse_job_dir(output: str, provided_dir: Optional[Path]) -> Optional[Path]:
 async def run_single_task(
     task_path: Path,
     agent: str = "codex",
-    model: str = "gpt-4",
+    model: str = "gpt-5.2",
     timeout: int = 300,
 ) -> TrialResult:
     """

@@ -176,10 +176,10 @@ The generated task includes:
 
 ```bash
 # Evaluate with Harbor
-codex-loop measure --dataset ./harbor_dataset --agent codex --model gpt-4
+codex-loop measure --dataset ./harbor_dataset --agent codex --model gpt-5.2
 
 # Check for regressions against baseline
-codex-loop measure --dataset ./harbor_dataset --agent codex --model gpt-4 --baseline ./baseline.json
+codex-loop measure --dataset ./harbor_dataset --agent codex --model gpt-5.2 --baseline ./baseline.json
 ```
 
 ## Stage 10: Generate Tickets
