@@ -33,6 +33,7 @@ chroma_data/
 # IDE
 .idea/
 .vscode/
+.cursor/
 *.swp
 *.swo
 
