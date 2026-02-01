@@ -1,0 +1,66 @@
+[project]
+name = "codex-loop"
+version = "0.1.0"
+description = "Codex-Native Closed Loop: Automatic task mining, signal detection, Harbor evals, and measured improvement"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Codex Team"}
+]
+keywords = ["codex", "ai", "evaluation", "harbor", "signals"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "chromadb>=0.4",
+    "openai>=1.0",
+    "hdbscan>=0.8",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "click>=8.0",
+    "rich>=13.0",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+    "mypy>=1.0",
+]
+
+[project.scripts]
+codex-loop = "codex_loop.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["codex_loop"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true

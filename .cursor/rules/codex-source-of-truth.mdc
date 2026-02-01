@@ -1,0 +1,19 @@
+---
+description: Codex work scope and system design source of truth
+alwaysApply: true
+---
+
+# Codex: codex-rs and brainstorm-updated.md
+
+When working on Codex, reading about Codex, or learning the Codex system:
+
+1. **Work in the codex-rs codebase**  
+   Default to the `codex/` directory (the Rust implementation). All code changes, navigation, and exploration for Codex should happen there unless the user specifies otherwise.
+
+2. **Use brainstorm-updated.md as the source of truth**  
+   For high-level system design, architecture, invariants, and design decisions, treat `brainstorm-updated.md` as the single source of truth. Refer to it when:
+   - Understanding the closed loop (capture → ship → spine → facets → Harbor → evals)
+   - Checking design invariants (trace spine, compaction, provenance)
+   - Aligning implementation with the documented system
+
+Do not rely on other docs or assumptions for system design; prefer and cite brainstorm-updated.md.
